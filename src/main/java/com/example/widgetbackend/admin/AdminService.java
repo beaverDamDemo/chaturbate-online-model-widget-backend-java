@@ -29,4 +29,15 @@ public class AdminService {
 
         return new AdminStatsDto(totalUsers, totalFavorites, roomStats);
     }
+
+    // Returns all users as UserDto
+    public List<com.example.widgetbackend.auth.UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(user -> new com.example.widgetbackend.auth.UserDto(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getName(),
+                        user.getRole().name()))
+                .toList();
+    }
 }

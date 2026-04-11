@@ -18,7 +18,14 @@ public class AdminController {
     }
 
     @GetMapping("/stats")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AdminStatsDto> stats() {
         return ResponseEntity.ok(adminService.getStats());
+    }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<java.util.List<com.example.widgetbackend.auth.UserDto>> getAllUsers() {
+        return ResponseEntity.ok(adminService.getAllUsers());
     }
 }
