@@ -1,0 +1,17 @@
+# Maven
+target/
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Environment secrets — never commit
+.env
+
+# OS
+desktop.ini
+.DS_Store
+Thumbs.db
