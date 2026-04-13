@@ -11,7 +11,7 @@ spring:
 
 security:
   jwt:
-    secret: ${JWT_SECRET}
+    secret: 84c5a964feb7e63233460f8c3a8312f3
     expiration-ms: 86400000
 
 admin:
