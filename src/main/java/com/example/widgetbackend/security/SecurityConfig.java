@@ -47,7 +47,8 @@ public class SecurityConfig {
                                 "/api/public/**",
                                 "/health",
                                 "/status",
-                                "/actuator/health")
+                                "/actuator/health",
+                                "/api/dashboard/status") // allow dashboard status public
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
