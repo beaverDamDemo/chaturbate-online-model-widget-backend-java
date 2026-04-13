@@ -21,13 +21,15 @@ class AdminSeederTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private AdminSeedProperties props;
+    @Mock
+    private com.example.widgetbackend.favorite.FavoriteRepository favoriteRepository;
     @InjectMocks
     private AdminSeeder seeder;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        seeder = new AdminSeeder(userRepository, passwordEncoder, props);
+        seeder = new AdminSeeder(userRepository, passwordEncoder, props, favoriteRepository);
     }
 
     @Test

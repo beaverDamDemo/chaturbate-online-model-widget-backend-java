@@ -28,38 +28,57 @@ This project is scaffolded with:
 > **Windows users**: If Maven is not on your PATH, prefix every `mvn` command with the full path, e.g.
 > `C:\Users\<you>\.maven\maven-3.9.14\bin\mvn`
 
-## Run locally
+## Local Development Database (Docker)
 
-**Linux / macOS**
+This project uses a local PostgreSQL database for development, managed by Docker Compose.
+
+**Start the database:**
 
 ```bash
-export JAVA_HOME=/path/to/jdk-21
+docker compose up -d db
+```
+
+**Database connection (dev profile):**
+
+- Host: `localhost`
+- Port: `5433`
+- Database: `widgetdb`
+- User: `widgetuser`
+- Password: `widgetpass`
+
+**Environment variables:**
+
+All secrets and credentials are loaded from environment variables. For local development, simply edit the `.env` file in the project root. The dev profile automatically imports `.env`—you do NOT need to export variables manually.
+
+**.env file example:**
+
+```
+DB_URL=jdbc:postgresql://localhost:5433/widgetdb
+DB_USERNAME=widgetuser
+DB_PASSWORD=widgetpass
+JWT_SECRET=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+JWT_EXPIRATION_MS=86400000
+ADMIN_EMAIL=fjasdojf@hotmail.com
+ADMIN_PASSWORD=password
+```
+
+> **Important:**
+>
+> - `JWT_SECRET` **must be a BASE64 string that decodes to at least 32 bytes** (for HS256). Example: `MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=`
+> - Do NOT wrap values in quotes in `.env`.
+> - Never commit real secrets to version control.
+
+**Run the backend:**
+
+```powershell
 mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
-**Windows (PowerShell)** — run each command one at a time
+**Linux / macOS:**
 
-Navigate to the project folder:
+The `.env` file is also supported on Linux/macOS. You do NOT need to export variables manually. Just run:
 
-```powershell
-Set-Location "C:\Users\$env:USERNAME\Documents\dev\chaturbate-online-model-widget\chaturbate-online-model-widget-backend-java"
-```
-
-Set JAVA_HOME (adjust path to match your JDK 21 installation):
-
-```powershell
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21"  # or your JDK 21 path
-```
-
-Add Maven to PATH (adjust path to match your Maven installation):
-
-```powershell
-$env:PATH = "C:\Users\$env:USERNAME\.maven\maven-3.9.14\bin;$env:PATH"
-```
-
-Start the application (note: the `-D` flag must be quoted in PowerShell):
-
-```powershell
+```bash
 mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
@@ -73,6 +92,32 @@ Verify it is running: `GET http://localhost:8080/health` → `{"status":"live"}`
 > $pid = (Get-NetTCPConnection -LocalPort 8080 -State Listen).OwningProcess
 > Stop-Process -Id $pid -Force
 > ```
+
+## Production Database (Render)
+
+For production, the backend uses a managed PostgreSQL database on Render. The connection is configured in `application-prod.yml` using environment variables:
+
+- `DB_URL`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `JWT_SECRET` (must match the format above)
+
+Set these variables in your Render dashboard with the credentials provided by Render.
+
+**Example JDBC URL:**
+
+```
+jdbc:postgresql://dpg-d7ef7bfaqgkc73fvtet0-a.oregon-postgres.render.com/widget_db_8iwa
+```
+
+**Example environment variables:**
+
+```
+DB_URL=jdbc:postgresql://dpg-d7ef7bfaqgkc73fvtet0-a.oregon-postgres.render.com/widget_db_8iwa
+DB_USERNAME=fjasdojf
+DB_PASSWORD=your_render_password
+JWT_SECRET=your_base64_32byte_secret
+```
 
 ## Build
 
@@ -120,12 +165,12 @@ Then call `GET /api/profile/me`.
 
 ## Environments
 
-This project uses two Spring profiles: `dev` (local) and `prod` (Supabase).
+This project uses two Spring profiles: `dev` (local) and `prod` (production).
 
 ### dev (local development)
 
 Runs against a local PostgreSQL container via Docker Compose.
-Config lives in `application-dev.yml`. Credentials are safe to commit here (no real data).
+Config lives in `application-dev.yml`. All credentials are loaded from `.env` (never commit real secrets).
 
 Start the local database:
 
@@ -136,25 +181,25 @@ docker compose up -d
 Then run the app with the dev profile:
 
 ```powershell
-mvn spring-boot:run `-Dspring-boot.run.profiles=dev`
+mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
-The H2 console is disabled in dev/prod. Use a PostgreSQL client (e.g. DBeaver, TablePlus) pointed at `localhost:5432`.
+The H2 console is disabled in dev/prod. Use a PostgreSQL client (e.g. DBeaver, TablePlus) pointed at `localhost:5433`.
 
-### prod (Supabase / production)
+### prod (production)
 
 Config lives in `application-prod.yml`. All secrets are read from environment variables — **never commit real credentials**.
 
 Required environment variables:
 
-| Variable      | Description                                                                    |
-| ------------- | ------------------------------------------------------------------------------ |
-| `DB_URL`      | Supabase JDBC URL, e.g. `jdbc:postgresql://db.<ref>.supabase.co:5432/postgres` |
-| `DB_USERNAME` | Supabase database username                                                     |
-| `DB_PASSWORD` | Supabase database password                                                     |
-| `JWT_SECRET`  | 64-char hex secret for signing JWT tokens                                      |
+| Variable      | Description                                                            |
+| ------------- | ---------------------------------------------------------------------- |
+| `DB_URL`      | Render JDBC URL, e.g. `jdbc:postgresql://...`                          |
+| `DB_USERNAME` | Render database username                                               |
+| `DB_PASSWORD` | Render database password                                               |
+| `JWT_SECRET`  | Base64 secret that decodes to at least 32 bytes for signing JWT tokens |
 
-See `.env.example` for a template.
+See `.env` for a template.
 
 ---
 

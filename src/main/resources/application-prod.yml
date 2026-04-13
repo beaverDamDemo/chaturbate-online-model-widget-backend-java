@@ -11,8 +11,8 @@ spring:
 
 security:
   jwt:
-    secret: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef###
-    expiration-ms: 86400000
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
 
 admin:
   seed:

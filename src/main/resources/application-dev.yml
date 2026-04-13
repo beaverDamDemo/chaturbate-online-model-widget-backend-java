@@ -1,8 +1,10 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:postgresql://localhost:5433/widgetdb
-    username: widgetuser
-    password: widgetpass
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -11,9 +13,10 @@ spring:
 
 security:
   jwt:
-    secret: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
 
 admin:
   seed:
-    email: fjasdojf@hotmail.com
-    password: password
+    email: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
