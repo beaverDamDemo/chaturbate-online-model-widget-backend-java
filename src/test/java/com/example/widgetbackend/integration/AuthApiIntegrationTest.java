@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AuthApiIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
@@ -30,12 +32,14 @@ class AuthApiIntegrationTest {
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
-        User user = new User();
-        user.setName("user");
-        user.setEmail("user@example.com");
-        user.setPassword(new BCryptPasswordEncoder().encode("password"));
-        user.setRole(com.example.widgetbackend.user.Role.USER);
-        userRepository.save(user);
+        if (!userRepository.findByEmail("user@example.com").isPresent()) {
+            User user = new User();
+            user.setName("user");
+            user.setEmail("user@example.com");
+            user.setPassword(new BCryptPasswordEncoder().encode("password"));
+            user.setRole(com.example.widgetbackend.user.Role.USER);
+            userRepository.save(user);
+        }
     }
 
     @Test

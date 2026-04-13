@@ -38,6 +38,17 @@ class AdminSeederTest {
         when(props.getPassword()).thenReturn("pass");
         when(userRepository.findByEmail("admin@example.com")).thenReturn(Optional.empty());
         when(passwordEncoder.encode("pass")).thenReturn("encoded");
+        // Return a User with a non-null ID when saving
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            // Use reflection to set the private id field
+            java.lang.reflect.Field idField = User.class.getDeclaredField("id");
+            idField.setAccessible(true);
+            idField.set(user, 1L);
+            return user;
+        });
+        // Mock favoriteRepository.existsByUserIdAndRoomName to avoid NPE
+        when(favoriteRepository.existsByUserIdAndRoomName(anyLong(), anyString())).thenReturn(false);
         seeder.run();
         verify(userRepository).save(any(User.class));
     }
