@@ -1,3 +1,13 @@
+# TEMPORARY
+
+```powershell
+Set-Location "C:\Users\$env:USERNAME\Documents\dev\chaturbate-online-model-widget\chaturbate-online-model-widget-backend-java"
+```
+
+```powershell
+mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
+```
+
 # Spring Boot Backend Template
 
 This project is scaffolded with:

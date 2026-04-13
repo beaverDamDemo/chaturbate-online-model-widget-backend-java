@@ -4,22 +4,25 @@ import com.example.widgetbackend.auth.UserDto;
 import com.example.widgetbackend.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 class AdminServiceTest {
-
-    @MockBean
+    @Mock
     private UserRepository userRepository;
-
-    @Autowired
+    @InjectMocks
     private AdminService adminService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void getAllUsers_returnsUserDtos() {
