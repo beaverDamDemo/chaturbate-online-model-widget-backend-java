@@ -12,7 +12,7 @@ mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 
 This project is scaffolded with:
 
-- Java 24
+- Java 21
 - Spring Boot 3.5
 - Spring Data JPA
 - Spring Scheduler
@@ -22,7 +22,7 @@ This project is scaffolded with:
 
 ## Prerequisites
 
-- **JDK 24+** — [Download from Oracle](https://www.oracle.com/java/technologies/downloads/) or use a package manager
+- **JDK 21** — [Download Eclipse Temurin JDK 21](https://adoptium.net/temurin/releases/?version=21) (recommended) or use a package manager
 - **Maven 3.9+** — [Download from Apache](https://maven.apache.org/download.cgi)
 
 > **Windows users**: If Maven is not on your PATH, prefix every `mvn` command with the full path, e.g.
@@ -33,7 +33,7 @@ This project is scaffolded with:
 **Linux / macOS**
 
 ```bash
-export JAVA_HOME=/path/to/jdk-24
+export JAVA_HOME=/path/to/jdk-21
 mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
@@ -45,10 +45,10 @@ Navigate to the project folder:
 Set-Location "C:\Users\$env:USERNAME\Documents\dev\chaturbate-online-model-widget\chaturbate-online-model-widget-backend-java"
 ```
 
-Set JAVA_HOME (adjust path to match your JDK installation):
+Set JAVA_HOME (adjust path to match your JDK 21 installation):
 
 ```powershell
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-24"
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21"  # or your JDK 21 path
 ```
 
 Add Maven to PATH (adjust path to match your Maven installation):
@@ -168,7 +168,7 @@ See `.env.example` for a template.
 CI/CD is handled by GitHub Actions (`.github/workflows/deploy.yml`):
 
 1. Build JAR with Maven
-2. Build Docker image (`eclipse-temurin:25-jre`)
+2. Build Docker image (`eclipse-temurin:21-jre`)
 3. Push image to container registry
 4. Deploy to hosting platform (Railway / Render / etc.)
 
