@@ -8,14 +8,13 @@ import java.time.Instant;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/public")
 public class PublicController {
 
     @GetMapping("/ping")
     public Map<String, Object> ping() {
         return Map.of(
                 "status", "ok",
-                "timestamp", Instant.now().toString()
-        );
+                "timestamp", Instant.now().toString());
     }
 }

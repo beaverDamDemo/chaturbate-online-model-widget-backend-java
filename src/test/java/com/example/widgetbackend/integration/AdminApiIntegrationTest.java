@@ -41,7 +41,7 @@ class AdminApiIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void getAllUsers_asAdmin_returnsUserList() throws Exception {
-        mockMvc.perform(get("/api/admin/users")
+        mockMvc.perform(get("/admin/users")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -50,7 +50,7 @@ class AdminApiIntegrationTest {
     @Test
     @WithMockUser(username = "user", roles = { "USER" })
     void getAllUsers_asUser_forbidden() throws Exception {
-        mockMvc.perform(get("/api/admin/users")
+        mockMvc.perform(get("/admin/users")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }

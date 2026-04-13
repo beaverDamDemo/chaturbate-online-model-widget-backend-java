@@ -28,7 +28,7 @@ class AdminControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void getAllUsers_shouldReturnOkForAdmin() throws Exception {
-        mockMvc.perform(get("/api/admin/users"))
+        mockMvc.perform(get("/admin/users"))
                 .andExpect(status().isOk());
     }
 }

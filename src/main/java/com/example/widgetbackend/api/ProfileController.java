@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping("/profile")
 public class ProfileController {
 
     @GetMapping("/me")
     public Map<String, String> me(Authentication authentication) {
         return Map.of(
-                "username", authentication.getName()
-        );
+                "username", authentication.getName());
     }
 }

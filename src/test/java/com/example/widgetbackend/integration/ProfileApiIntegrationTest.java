@@ -39,7 +39,7 @@ class ProfileApiIntegrationTest {
     @Test
     @WithMockUser(username = "user", roles = { "USER" })
     void getProfile_asUser_returnsProfile() throws Exception {
-        mockMvc.perform(get("/api/profile/me")
+        mockMvc.perform(get("/profile/me")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -47,7 +47,7 @@ class ProfileApiIntegrationTest {
 
     @Test
     void getProfile_unauthenticated_forbidden() throws Exception {
-        mockMvc.perform(get("/api/profile/me")
+        mockMvc.perform(get("/profile/me")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }

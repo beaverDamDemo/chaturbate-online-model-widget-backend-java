@@ -40,15 +40,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
-                                "/api/auth/login",
-                                "/api/auth/register",
-                                "/api/auth/logout",
+                                "/auth/login",
+                                "/auth/register",
+                                "/auth/logout",
                                 "/h2-console/**",
-                                "/api/public/**",
+                                "/public/**",
                                 "/health",
                                 "/status",
                                 "/actuator/health",
-                                "/api/dashboard/status") // allow dashboard status public
+                                "/dashboard/status") // allow dashboard status public
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

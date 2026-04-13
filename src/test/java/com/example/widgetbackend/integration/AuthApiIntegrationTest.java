@@ -45,7 +45,7 @@ class AuthApiIntegrationTest {
     @Test
     void login_withValidCredentials_returnsToken() throws Exception {
         String loginJson = "{\"email\":\"user@example.com\",\"password\":\"password\"}";
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginJson))
                 .andExpect(status().isOk())
@@ -55,7 +55,7 @@ class AuthApiIntegrationTest {
     @Test
     void login_withInvalidCredentials_unauthorized() throws Exception {
         String loginJson = "{\"email\":\"user@example.com\",\"password\":\"wrongpass\"}";
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginJson))
                 .andExpect(status().isForbidden());
