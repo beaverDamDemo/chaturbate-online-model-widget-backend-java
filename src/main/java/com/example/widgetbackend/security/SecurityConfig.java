@@ -65,7 +65,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:3000",
-                "https://chaturbate-online-model-widget-client-react.vercel.app"));
+                "https://chaturbate-online-model-widget-client-react.vercel.app",
+                "https://chaturbate-online-model-widget-clie.vercel.app",
+                "https://vercel.com/zdenegti-5244s-projects/chaturbate-online-model-widget-client-react/Cnndza6CgHBHS5QPYTQmxGLUZYDu"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
