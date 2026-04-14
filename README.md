@@ -8,10 +8,6 @@ docker compose up -d db
 ```
 
 ```powershell
-Set-Location "C:\Users\$env:USERNAME\Documents\dev\chaturbate-online-model-widget\chaturbate-online-model-widget-backend-java"
-```
-
-```powershell
 mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
