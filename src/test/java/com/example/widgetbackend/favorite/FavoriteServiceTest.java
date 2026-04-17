@@ -1,5 +1,6 @@
 package com.example.widgetbackend.favorite;
 
+import com.example.widgetbackend.chaturbate.ChaturbateApiClient;
 import com.example.widgetbackend.user.User;
 import com.example.widgetbackend.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,8 @@ class FavoriteServiceTest {
     private FavoriteRepository favoriteRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private ChaturbateApiClient chaturbateApiClient;
     @InjectMocks
     private FavoriteService favoriteService;
 
