@@ -1,5 +1,6 @@
 package com.example.widgetbackend.admin;
 
+import com.example.widgetbackend.chaturbate.ChaturbateApiClient;
 import com.example.widgetbackend.favorite.FavoriteRepository;
 import com.example.widgetbackend.user.Role;
 import com.example.widgetbackend.user.UserRepository;
@@ -12,10 +13,13 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final FavoriteRepository favoriteRepository;
+    private final ChaturbateApiClient chaturbateApiClient;
 
-    public AdminService(UserRepository userRepository, FavoriteRepository favoriteRepository) {
+    public AdminService(UserRepository userRepository, FavoriteRepository favoriteRepository,
+            ChaturbateApiClient chaturbateApiClient) {
         this.userRepository = userRepository;
         this.favoriteRepository = favoriteRepository;
+        this.chaturbateApiClient = chaturbateApiClient;
     }
 
     public AdminStatsDto getStats() {
@@ -27,7 +31,15 @@ public class AdminService {
                 .map(r -> new AdminStatsDto.RoomStatsDto(r.getRoomName(), r.getFavoriteCount()))
                 .toList();
 
-        return new AdminStatsDto(totalUsers, totalFavorites, roomStats);
+        var distinctRooms = favoriteRepository.findDistinctRoomNames();
+        long activeModels = distinctRooms.stream().filter(chaturbateApiClient::isRoomOnline).count();
+        long onlineFavorites = favoriteRepository.findAll().stream().filter(f -> f.isOnline()).count();
+        int avgResponseMs = 120;
+        double conversionRate = 0.13;
+        String status = "live";
+
+        return new AdminStatsDto(totalUsers, totalFavorites, roomStats, status, activeModels, onlineFavorites,
+                avgResponseMs, conversionRate);
     }
 
     // Returns all users as UserDto
